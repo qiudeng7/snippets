@@ -1,0 +1,16 @@
+[Unit]
+Description=收集系统占用信息
+;服务依赖（再这些服务后启动本服务）
+After=network.target
+
+[Service]
+;type 后台守护进程用forking，前台自启用simple
+Type=forking
+ExecStart=nohup [command] &
+ExecStop=pkill [进程名的pattern]
+;禁用超时，否则容易检测不到程序已经启动，超市之后会强制结束线程
+TimeoutStartSec=0
+
+; Install字段如果不需要开机自启的话可以不写
+[Install]
+WantedBy=multi-user.target
